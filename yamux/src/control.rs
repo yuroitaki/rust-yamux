@@ -14,6 +14,7 @@ use futures::{
     channel::{mpsc, oneshot},
     prelude::*,
 };
+use log::debug;
 use std::pin::Pin;
 use std::task::{Context, Poll};
 
@@ -106,6 +107,7 @@ where
                         }
                         Poll::Ready(None) => {
                             // Last `Control` sender was dropped, close te connection.
+                            debug!("Received dropping signal when control is dropped");
                             self.state = State::Closing {
                                 reply: None,
                                 inner: Closing::ClosingConnection { connection },
